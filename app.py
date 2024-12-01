@@ -32,24 +32,31 @@ def home():
 
 @app.route('/process-image', methods=['POST'])
 def process_image():
-    if 'image' not in request.files:
-        return jsonify({'error': 'No file uploaded.'}), 400
+    try:
+        if 'image' not in request.files:
+            return jsonify({'error': 'No file uploaded.'}), 400
 
-    image_file = request.files['image']
-    print("Received file:", image_file.filename)  # Debugging statement
-    file_path = os.path.join(UPLOAD_FOLDER, image_file.filename)
-    image_file.save(file_path)
-    print(f"File saved at: {file_path}")  # Debugging statement
+        image_file = request.files['image']
+        print("Received file:", image_file.filename)  # Debugging statement
+        file_path = os.path.join(UPLOAD_FOLDER, image_file.filename)
+        image_file.save(file_path)
+        print(f"File saved at: {file_path}")  # Debugging statement
 
-    processed_img = preprocess_image(file_path)
+        processed_img = preprocess_image(file_path)
 
-    # Visualize the processed image (for debugging)
-    processed_img.save('processed_image.png')  # Save the processed image to check
+        # Visualize the processed image (for debugging)
+        processed_img.save('processed_image.png')  # Save the processed image to check
 
-    text = pytesseract.image_to_string(processed_img)
-    print("OCR Output:", text)  # Debugging statement
+        # Extract text with layout retention (using --psm 6)
+        text = pytesseract.image_to_string(processed_img, config='--psm 6')
+        print("OCR Output:", text)  # Debugging statement
 
-    return jsonify({'text': text})
+        # Return text wrapped in HTML for styling
+        return jsonify({'text': f'<div class="ocr-text">{text}</div>'})
+
+    except Exception as e:
+        print(f"Error during image processing: {e}")  # Debugging statement
+        return jsonify({'error': 'Error processing image!'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
