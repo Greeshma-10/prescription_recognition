@@ -4,19 +4,15 @@ This project is a Flask-based web application that extracts and recognizes text 
 
 ✨ Features
 
-✅ Upload handwritten prescription images
-✅ OCR (Optical Character Recognition) using Tesseract
-✅ Preprocessing techniques for better text extraction
-✅ View extracted text in a structured format
-✅ Simple and clean web interface
+✅ Upload handwritten prescription images✅ OCR (Optical Character Recognition) using Tesseract✅ Preprocessing techniques for better text extraction✅ View extracted text in a structured format✅ Simple and clean web interface
 
 🖼️ Screenshots
 
 Handwritten Prescription Sample:
-![Handwritten Prescription](https://docs/sample.jpg)
+![Handwritten Prescription](docs/sample.jpg)
 
 Web App Interface
-![Web App Interface](https://docs/web_interface.png)
+![Web App Interface](docs/web_interface.png)
 
 🚀 Installation & Setup
 
